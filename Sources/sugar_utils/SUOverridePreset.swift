@@ -8,12 +8,19 @@
 import Foundation
 
 public struct SUOverridePreset {
-    let name: String
-    let symbol: String
-    let targetRange: (Double, Double)
-    let insulinNeedsScaleFactor: Double
+    public let name: String
+    public let symbol: String
+    public let targetRange: (Double, Double)
+    public let insulinNeedsScaleFactor: Double
     
-    static func createPresetWithDefaultNamingScheme(targetRange: (Double, Double), insulinNeedsScaleFactor: Double) -> SUOverridePreset {
+    public init(name: String, symbol: String, targetRange: (Double, Double), insulinNeedsScaleFactor: Double){
+        self.name = name
+        self.symbol = symbol
+        self.targetRange = targetRange
+        self.insulinNeedsScaleFactor = insulinNeedsScaleFactor
+    }
+    
+    static public func createPresetWithDefaultNamingScheme(targetRange: (Double, Double), insulinNeedsScaleFactor: Double) -> SUOverridePreset {
         
         let name = "I: \(Int(insulinNeedsScaleFactor * 100.0))% T: \( Int(targetRange.0))"
         return SUOverridePreset(name: name, symbol: "T", targetRange: targetRange, insulinNeedsScaleFactor: insulinNeedsScaleFactor)
