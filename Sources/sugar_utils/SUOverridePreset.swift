@@ -31,9 +31,9 @@ public struct SUOverridePreset {
         return createPresetWithDefaultNamingScheme(targetRange: (targetBase, targetBase + targetStep()), insulinNeedsScaleFactor: insulinNeedsScaleFactor)
     }
     
-    public static func createPresetWithDefaultNamingScheme(targetBase: Int, insulinNeedsPercent: Double) -> SUOverridePreset {
+    public static func createPresetWithDefaultNamingScheme(targetBase: Int, insulinNeedsPercent: Int) -> SUOverridePreset {
         
-        return createPresetWithDefaultNamingScheme(targetRange: (targetBase, targetBase + targetStep()), insulinNeedsScaleFactor: insulinNeedsPercent / 100.0)
+        return createPresetWithDefaultNamingScheme(targetRange: (targetBase, targetBase + targetStep()), insulinNeedsScaleFactor: Double(insulinNeedsPercent) / 100.0)
     }
     
     static func targetStep() -> Int {
