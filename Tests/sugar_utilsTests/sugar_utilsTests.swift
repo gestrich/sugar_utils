@@ -9,8 +9,18 @@ final class sugar_utilsTests: XCTestCase {
             print(preset)
         }
     }
-
-    static var allTests = [
-        ("testExample", testCreatePresets),
-    ]
+    
+    func testDefaultPresetNames() {
+        var preset = SUOverridePreset.createPresetWithDefaultNamingScheme(targetBase: 120, insulinNeedsPercent: 100)
+        assert(preset.name == "I: 100% T: 120")
+        
+        preset = SUOverridePreset.createPresetWithDefaultNamingScheme(targetBase: 120, insulinNeedsScaleFactor: 1.0)
+        assert(preset.name == "I: 100% T: 120")
+    }
+    
+    func testDefaultTargets() {
+        let preset = SUOverridePreset.createPresetWithDefaultNamingScheme(targetBase: 100, insulinNeedsPercent: 90)
+        assert(preset.targetRange.0 == 100)
+        assert(preset.targetRange.1 == 120)
+    }
 }
