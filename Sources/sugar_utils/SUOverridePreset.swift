@@ -10,7 +10,7 @@ import Foundation
 public struct SUOverridePreset {
     public let name: String
     public let symbol: String
-    public let targetRange: (Int, Int)
+    public let targetRange: (minValue: Int, maxValue: Int)
     public let insulinNeedsPercent: Int
     
     public init(name: String, symbol: String, targetRange: (Int, Int), insulinNeedsPercent: Int){
@@ -20,20 +20,18 @@ public struct SUOverridePreset {
         self.insulinNeedsPercent = insulinNeedsPercent
     }
     
-    public static func createPresetWithDefaultNamingScheme(targetRange: (Int, Int), insulinNeedsScaleFactor: Double) -> SUOverridePreset {
-        
-        let name = "I: \(Int(insulinNeedsScaleFactor * 100.0))% T: \( Int(targetRange.0))"
-        return SUOverridePreset(name: name, symbol: "T", targetRange: targetRange, insulinNeedsPercent: Int(insulinNeedsScaleFactor / 100.0))
+    public func insulinNeedsScaleFactor() -> Double {
+        return Double(insulinNeedsPercent) / 100.0
     }
     
-    public static func createPresetWithDefaultNamingScheme(targetBase: Int, insulinNeedsScaleFactor: Double) -> SUOverridePreset {
-        
-        return createPresetWithDefaultNamingScheme(targetRange: (targetBase, targetBase + targetStep()), insulinNeedsScaleFactor: insulinNeedsScaleFactor)
+    public static func createDefaultPreset(baseTarget: Int, insulinNeedsPercent: Int) -> SUOverridePreset {
+        let name = "I: \(insulinNeedsPercent)% T: \( Int(baseTarget))"
+        let targetRange = (baseTarget, baseTarget + targetStep())
+        return SUOverridePreset(name: name, symbol: "T", targetRange: targetRange, insulinNeedsPercent: insulinNeedsPercent)
     }
     
-    public static func createPresetWithDefaultNamingScheme(targetBase: Int, insulinNeedsPercent: Int) -> SUOverridePreset {
-        
-        return createPresetWithDefaultNamingScheme(targetRange: (targetBase, targetBase + targetStep()), insulinNeedsScaleFactor: Double(insulinNeedsPercent) / 100.0)
+    public static func createDefaultPreset(baseTarget: Int, insulinNeedsScaleFactor: Double) -> SUOverridePreset {
+        return createDefaultPreset(baseTarget: baseTarget, insulinNeedsPercent: Int(insulinNeedsScaleFactor * 100))
     }
     
     static func targetStep() -> Int {
@@ -45,20 +43,16 @@ extension SUOverridePreset {
     
     public static func createDefaultPresets() -> [SUOverridePreset] {
         var toRet = [SUOverridePreset]()
-        var currentScalePrecent = 10.0
-        while currentScalePrecent <= 200 {
-            var currentTarget = 100
-            while currentTarget <= 200 {
-                let preset = SUOverridePreset.createPresetWithDefaultNamingScheme(targetRange: (currentTarget, currentTarget + targetStep()), insulinNeedsScaleFactor: currentScalePrecent / 100.0)
+        var insulinPercent = 10
+        while insulinPercent <= 200 {
+            var baseTarget = 100
+            while baseTarget <= 200 {
+                let preset = SUOverridePreset.createDefaultPreset(baseTarget: baseTarget, insulinNeedsPercent: insulinPercent)
                 toRet.append(preset)
-                currentTarget += 10
+                baseTarget += 10
             }
             
-            currentScalePrecent += 10
-        }
-        
-        for preset in toRet {
-            print(preset.name)
+            insulinPercent += 5
         }
         
         return toRet
