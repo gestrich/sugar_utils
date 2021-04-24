@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct SUOverridePreset {
+public struct SUOverridePreset: Equatable {
+    
     public let name: String
     public let symbol: String
     public let targetRange: (minValue: Int, maxValue: Int)
@@ -22,6 +23,14 @@ public struct SUOverridePreset {
     
     public func insulinNeedsScaleFactor() -> Double {
         return Double(insulinNeedsPercent) / 100.0
+    }
+    
+    public static func == (lhs: SUOverridePreset, rhs: SUOverridePreset) -> Bool {
+        return lhs.name == rhs.name &&
+            lhs.symbol == rhs.symbol &&
+            lhs.targetRange.minValue == rhs.targetRange.minValue &&
+            lhs.targetRange.maxValue == rhs.targetRange.maxValue &&
+            lhs.insulinNeedsPercent == rhs.insulinNeedsPercent
     }
     
     public static func createDefaultPreset(baseTarget: Int, insulinNeedsPercent: Int) -> SUOverridePreset {

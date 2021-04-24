@@ -30,4 +30,18 @@ final class sugar_utilsTests: XCTestCase {
         assert(preset.insulinNeedsPercent == 90)
         assert(preset.insulinNeedsScaleFactor() == 0.9)
     }
+    
+    func testEquality() {
+        let preset1 = SUOverridePreset.createDefaultPreset(baseTarget: 100, insulinNeedsPercent: 90)
+        let preset2 = SUOverridePreset.createDefaultPreset(baseTarget: 100, insulinNeedsPercent: 90)
+        assert(preset1 == preset2, "Equlity error")
+        
+        let preset3 = SUOverridePreset.createDefaultPreset(baseTarget: 100, insulinNeedsPercent: 90)
+        let preset4 = SUOverridePreset.createDefaultPreset(baseTarget: 110, insulinNeedsPercent: 90)
+        assert(preset3 != preset4, "Equlity error")
+        
+        let preset5 = SUOverridePreset.createDefaultPreset(baseTarget: 100, insulinNeedsPercent: 90)
+        let preset6 = SUOverridePreset.createDefaultPreset(baseTarget: 100, insulinNeedsPercent: 100)
+        assert(preset5 != preset6, "Equlity error")
+    }
 }
