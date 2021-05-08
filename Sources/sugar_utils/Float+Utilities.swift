@@ -9,7 +9,7 @@ import Foundation
 
 extension Float
 {
-    func truncate(places : UInt)-> Float {
+    public func truncate(places : UInt)-> Float {
         let factor: Float = pow(10, Float(places))
         return (self * factor).rounded(.towardZero) / factor
     }
