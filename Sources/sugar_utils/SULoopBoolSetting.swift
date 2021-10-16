@@ -12,7 +12,7 @@ public struct SULoopBoolSetting: Equatable {
     public let settingKey: String
     public let settingValue: Bool
     
-    init(settingKey: String, settingValue: Bool){
+    public init(settingKey: String, settingValue: Bool){
         self.settingKey = settingKey
         self.settingValue = settingValue
     }
