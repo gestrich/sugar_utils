@@ -3,5 +3,6 @@ import XCTest
 import sugar_utilsTests
 
 var tests = [XCTestCaseEntry]()
-tests += sugar_utilsTests.allTests()
+tests += SULoopOverridePreset.allTests()
+tests += SULoopBoolSettingTests.allTests()
 XCTMain(tests)

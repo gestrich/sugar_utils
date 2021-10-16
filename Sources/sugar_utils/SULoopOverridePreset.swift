@@ -1,5 +1,5 @@
 //
-//  SUOverridePreset.swift
+//  SULoopOverridePreset.swift
 //  
 //
 //  Created by Bill Gestrich on 4/11/21.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SUOverridePreset: Equatable {
+public struct SULoopOverridePreset: Equatable {
     
     public let name: String
     public let symbol: String
@@ -25,7 +25,7 @@ public struct SUOverridePreset: Equatable {
         return Double(insulinNeedsPercent) / 100.0
     }
     
-    public static func == (lhs: SUOverridePreset, rhs: SUOverridePreset) -> Bool {
+    public static func == (lhs: SULoopOverridePreset, rhs: SULoopOverridePreset) -> Bool {
         return lhs.name == rhs.name &&
             lhs.symbol == rhs.symbol &&
             lhs.targetRange.minValue == rhs.targetRange.minValue &&
@@ -33,13 +33,13 @@ public struct SUOverridePreset: Equatable {
             lhs.insulinNeedsPercent == rhs.insulinNeedsPercent
     }
     
-    public static func createDefaultPreset(baseTarget: Int, insulinNeedsPercent: Int) -> SUOverridePreset {
+    public static func createDefaultPreset(baseTarget: Int, insulinNeedsPercent: Int) -> SULoopOverridePreset {
         let name = "I: \(insulinNeedsPercent)% T: \( Int(baseTarget))"
         let targetRange = (baseTarget, baseTarget + targetStep())
-        return SUOverridePreset(name: name, symbol: "T", targetRange: targetRange, insulinNeedsPercent: insulinNeedsPercent)
+        return SULoopOverridePreset(name: name, symbol: "T", targetRange: targetRange, insulinNeedsPercent: insulinNeedsPercent)
     }
     
-    public static func createDefaultPreset(baseTarget: Int, insulinNeedsScaleFactor: Double) -> SUOverridePreset {
+    public static func createDefaultPreset(baseTarget: Int, insulinNeedsScaleFactor: Double) -> SULoopOverridePreset {
         return createDefaultPreset(baseTarget: baseTarget, insulinNeedsPercent: Int(insulinNeedsScaleFactor * 100))
     }
     
@@ -48,15 +48,15 @@ public struct SUOverridePreset: Equatable {
     }
 }
 
-extension SUOverridePreset {
+extension SULoopOverridePreset {
     
-    public static func createDefaultPresets() -> [SUOverridePreset] {
-        var toRet = [SUOverridePreset]()
+    public static func createDefaultPresets() -> [SULoopOverridePreset] {
+        var toRet = [SULoopOverridePreset]()
         var insulinPercent = 10
         while insulinPercent <= 200 {
             var baseTarget = 100
             while baseTarget <= 200 {
-                let preset = SUOverridePreset.createDefaultPreset(baseTarget: baseTarget, insulinNeedsPercent: insulinPercent)
+                let preset = SULoopOverridePreset.createDefaultPreset(baseTarget: baseTarget, insulinNeedsPercent: insulinPercent)
                 toRet.append(preset)
                 baseTarget += 10
             }
